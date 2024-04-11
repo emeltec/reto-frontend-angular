@@ -6,6 +6,8 @@ import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HashLocationStrategy, LocationStrategy } from '@angular/common';
 import { ReactiveFormsModule } from '@angular/forms';
+import { LoginModule } from './views/public/login/login.module';
+import { LandingModule } from './views/public/landing/landing.module';
 
 @NgModule({
   declarations: [
@@ -16,6 +18,8 @@ import { ReactiveFormsModule } from '@angular/forms';
     AppRoutingModule,
     ReactiveFormsModule,
     BrowserAnimationsModule,
+    LoginModule,
+    LandingModule,
   ],
   providers: [
     { provide: LocationStrategy, useClass: HashLocationStrategy },

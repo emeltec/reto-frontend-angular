@@ -1,0 +1,42 @@
+
+.main-section {
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: right;
+
+  & .container {
+    padding-top: 90px;
+
+    & .promo {
+      margin-top: 5rem;
+    }
+
+    & .phone {
+      display: flex;
+      justify-content: center;
+    }
+  }
+
+  & .btn-primary,
+  .btn-outline-primary {
+    padding: 0.8rem 1rem;
+    border-radius: 8px;
+  }
+
+  & .btn-outline-primary {
+    border: none;
+    background: transparent;
+  }
+}
+
+@media (max-width: 768px) {
+  .main-section {
+
+    & .container {
+  
+      & .promo {
+        margin-top: 0rem;
+      }
+    }
+  }
+}
