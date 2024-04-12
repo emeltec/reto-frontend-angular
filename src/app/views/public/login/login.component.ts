@@ -50,4 +50,8 @@ export class LoginComponent implements OnInit {
     localStorage.setItem(LOCAL_DATA.USERDATA, JSON.stringify(this.formLogin.value));
   }
 
+  gotoHome(){
+    this.router.navigate(['/']);
+  }
+
 }

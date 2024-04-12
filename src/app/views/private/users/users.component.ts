@@ -1,12 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import {animate, state, style, transition, trigger} from '@angular/animations';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { DialogComponent } from '../../components/dialog/dialog.component';
+import { UsersService } from 'src/app/services/users.service';
 import { IUser, IUserResponse } from 'src/app/interfaces/user';
+import { PostService } from 'src/app/services/post.service';
 import { IPost } from 'src/app/interfaces/post';
-import { Router } from '@angular/router';
-import { IUserSession } from 'src/app/interfaces/user-session';
-import { DATA_USERS } from 'src/app/data/users';
 
 export interface PeriodicElement {
   name: string;
@@ -29,60 +28,70 @@ export interface PeriodicElement {
   ],
 })
 export class UsersComponent implements OnInit {
-  
-  public dataSource: IUserResponse[] = [];
+
+  public dataSource: IUser[] = [];
   public columnsToDisplay = ['name', 'username', 'email', 'phone'];
   public columnsToDisplayWithExpand = [...this.columnsToDisplay, 'expand'];
-  public expandedElement: IUserResponse[] | null = [];
+  public expandedElement: IUser[] | null = [];
 
-  private currentUserId = 0;
+  private currentUserId: number = 0;
 
-  public userData: IUserSession = {
-    username: '',
-    password: ''
-  };
+  private editUserId: number = 0;
+  private editPostIndex: number = -1;
 
   constructor(
     public dialog: MatDialog,
-    private router: Router,
+    private userService: UsersService,
+    private postService: PostService,
   ) { }
 
   ngOnInit() {
-    this.dataSource = DATA_USERS;
-    // this.userService.getUsers().subscribe(users => {
-    //   this.dataSource = users;
-    // });
+    this.userService.getUsers().subscribe(users => {
+      this.dataSource = users;
+    });
 
-    // this.postService.dataPosts$.asObservable().subscribe(post => {
-    //   this.addPost(post);
-    // });
-
-    // this.getUserData();
-  }
-
-  openDialog(data:any): void {
-    this.currentUserId = data.id;
-
-    this.dialog.open(DialogComponent, {
-      width: '640px',
-      enterAnimationDuration: '300ms',
-      exitAnimationDuration: '300ms',
-      data
+    this.postService.dataPosts$.asObservable().subscribe(response => {
+      this.addOrUpdate(response);
     });
   }
 
+  openDialog(user:IUser, postSelected?:IPost): void {
+    this.currentUserId = user.id;
+
+    this.dialog.open(DialogComponent, {
+      disableClose:true,
+      width: '640px',
+      enterAnimationDuration: '300ms',
+      exitAnimationDuration: '300ms',
+      data:{user, postSelected},
+    });
+  }
+
+  addOrUpdate(response:{post:IPost, nuevo:boolean}){
+    if(response.nuevo) {
+      this.addPost(response.post);
+    } else {
+      this.updatePost(response.post)
+    }
+    this.editUserId = 0;
+  }
+
   addPost(post:IPost) {
-    
+    this.dataSource.find(user => user.id === this.currentUserId)?.posts.push(post);
   }
 
-  logout(){
-    this.router.navigate(['/']);
-    localStorage.clear();
+  updatePost(post:IPost) {
+    this.dataSource.find(user => user.id === this.editUserId)?.posts.splice(this.editPostIndex, 1, post);
   }
 
-  getUserData() {
-    const userdata = JSON.parse(localStorage.getItem('userdata') || '{}');
-    this.userData = userdata;
+  deletePost(idUser:number, indexPost:number){
+    this.dataSource.find(user => user.id === idUser)?.posts.splice(indexPost, 1);
+  }
+
+  selectPost(user:IUser, indexPost:number, post:IPost){
+    this.editUserId = user.id;
+    this.editPostIndex = indexPost;
+    this.openDialog(user, post);
   }
 
 }

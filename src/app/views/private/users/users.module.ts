@@ -6,6 +6,9 @@ import { AngularMaterialModule } from '../../shared/angular-material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { DialogComponent } from '../../components/dialog/dialog.component';
 import { HttpClientModule } from '@angular/common/http';
+import { UsersService } from 'src/app/services/users.service';
+import { PostService } from 'src/app/services/post.service';
+import { NavbarPrivateComponent } from '../navbar-private/navbar-private.component';
 
 @NgModule({
   imports: [
@@ -15,7 +18,7 @@ import { HttpClientModule } from '@angular/common/http';
     ReactiveFormsModule,
     HttpClientModule,
   ],
-  declarations: [UsersComponent, DialogComponent],
-  providers: []
+  declarations: [UsersComponent, DialogComponent, NavbarPrivateComponent],
+  providers: [UsersService, PostService]
 })
 export class UsersModule { }

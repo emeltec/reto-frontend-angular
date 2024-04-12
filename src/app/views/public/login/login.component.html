@@ -1,3 +1,4 @@
+
 <div class="container-fluid ps-md-0">
   <div class="row g-0">
     <div class="d-none d-md-flex col-md-4 col-lg-6 bg-image" style="background-image: url('assets/images/banner_login.jpg');"></div>
@@ -5,7 +6,12 @@
       <div class="login d-flex align-items-center py-5">
         <div class="container">
           <div class="row">
+            
             <div class="col-md-9 col-lg-8 mx-auto">
+              <button (click)="gotoHome()" class="btn btn-return-home">
+                <i class="bi bi-arrow-left-circle-fill"></i>
+                Home
+              </button>
               <p class="mb-2">Bienvenido</p>
               <h3 class="mb-4">Inicia sesión</h3>
 

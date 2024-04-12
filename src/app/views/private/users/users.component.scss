@@ -1,4 +1,5 @@
 @import "src/variables";
+
 table {
   width: 100%;
 }
@@ -28,14 +29,12 @@ tr.example-element-row:not(.example-expanded-row):active {
   opacity: 0.5;
 }
 
-.user-info {
-  display: block;
-  & .welcome {
-    font-size: 0.9rem;
-    color: $blue-opaque;
-  }
-  & .username {
-    font-weight: 600;
-    color: $color-primario;
+.post-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+
+  &:not(:last-child) {
+    border-bottom: 1px #c1c1c1 dashed;
   }
 }

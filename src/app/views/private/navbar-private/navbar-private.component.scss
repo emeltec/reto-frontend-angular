@@ -1,0 +1,16 @@
+
+@import "src/variables";
+
+.user-info {
+    display: block;
+
+    & .welcome {
+        font-size: 0.9rem;
+        color: $blue-opaque;
+    }
+
+    & .username {
+        font-weight: 600;
+        color: $color-primario;
+    }
+}
